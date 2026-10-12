@@ -16,11 +16,32 @@ npm run start        # 预览生产构建
 
 ### GitHub Pages（当前线上地址）
 
-推送代码到 `main` 分支即自动部署：`.github/workflows/deploy-pages.yml` 会执行静态导出（`GH_PAGES=true` → `output: "export"` + `basePath: /edge32`）并发布到 Pages。
+**线上地址**：https://gatsby666-jay.github.io/edge32/
 
-- **线上地址**：https://gatsby666-jay.github.io/edge32/
-- 仓库 **Settings → Pages → Source** 已设为 `GitHub Actions`
-- 本地复现 Pages 构建：`GH_PAGES=true npm run build`，产物在 `out/`
+部署结构：`main` 分支存源码，`gh-pages` 分支存静态导出产物，Pages 源设为 `gh-pages` 分支根目录。
+
+```bash
+# 1. 本地构建 Pages 产物（启用 output:export + basePath:/edge32）
+GH_PAGES=true npm run build        # 产物在 out/
+
+# 2. 推送产物到 gh-pages 分支（脚本方式，无需 workflow scope）
+python scripts/deploy-ghpages.py   # 通过 GitHub API 推送 main + gh-pages
+```
+
+**重新部署流程**（改了 `lib/data.ts` 等内容后）：
+
+1. `git add -A && git commit -m "..."`（提交到 main）
+2. `python scripts/deploy-ghpages.py`（一条命令：推送 main 源码 + 重建 gh-pages 产物）
+3. 等 1-2 分钟，Pages 自动构建生效
+
+**可选：升级为 Actions 自动部署**
+
+仓库根目录已准备好 `.github/workflows/deploy-pages.yml`（本地存在，因当前 Token 缺 `workflow` 作用域暂未入库）。启用方式二选一：
+
+- 在 GitHub 网页端 **Add file → Create new file** 粘贴该工作流内容，再把 **Settings → Pages → Source** 改为 `GitHub Actions`
+- 或给 Token 添加 `workflow` 作用域后执行 `git push`
+
+之后每次 push 到 `main` 即自动构建部署。
 
 ### Vercel（可选备选）
 
@@ -61,6 +82,8 @@ components/
 lib/
   data.ts               # ★ 内容维护入口：阶段 / 课程 / 网盘 / 工具 / 社区
   storage.ts            # SSR 安全的 localStorage 封装
+scripts/
+  deploy-ghpages.py     # GitHub Pages 部署脚本（API 推送 main + gh-pages）
 legacy-static/          # 纯静态版备份（index.html + assets/）
 ```
 

@@ -33,3 +33,6 @@ yarn-error.log*
 # os
 .DS_Store
 Thumbs.db
+
+# 临时文件
+.tmp-*.html
