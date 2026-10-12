@@ -98,6 +98,36 @@
 }
 
 @layer components {
+  /* —— 液态交互背景（WebGL，见 components/liquid-bg.tsx）—— */
+  .liquid-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+    will-change: opacity;
+  }
+  .liquid-canvas.is-active {
+    opacity: 1;
+  }
+  /* WebGL 可用时隐藏 Hero 的 CSS 径向光晕（着色器自带光晕） */
+  .hero-glow {
+    transition: opacity 0.7s ease;
+  }
+  body.has-liquid .hero-glow {
+    opacity: 0;
+  }
+
+  /* 内容层置于液态背景之上 */
+  main,
+  footer {
+    position: relative;
+    z-index: 1;
+  }
+
   /* —— 区块节奏 —— */
   .sec { padding-block: clamp(80px, 12vw, 160px); }
   .sec-head { margin-bottom: clamp(44px, 6vw, 84px); }

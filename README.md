@@ -2,6 +2,8 @@
 
 Next.js 15（App Router）+ Tailwind CSS v4 + Framer Motion + Lenis。设计风格参考 [grilledpixels.com](https://www.grilledpixels.com/ecommerce/)：黑底白字、红色强调 `#EE344A`、超大粗体标题混排斜体衬线、滚动入场动效。
 
+首屏带**鼠标交互液态背景**（原生 WebGL 实现，参考 prime.whut.club 的 LiquidEther 效果）：光标流动扭曲、光晕与涟漪跟随，零依赖、离屏自动暂停。
+
 ## 快速开始
 
 ```bash
@@ -72,6 +74,7 @@ public/
   og.png                # 社交分享卡片（1200×630）
 components/
   smooth-scroll.tsx     # Lenis 平滑滚动 Provider + 锚点处理
+  liquid-bg.tsx         # ★ 鼠标交互液态背景（原生 WebGL，零依赖）
   cursor.tsx            # 自定义光标（红点 + 弹性圆环 + 悬停标签）
   loader.tsx            # 加载器（等 document.fonts.ready，锁定滚动）
   reveal.tsx            # Reveal / LineReveal 动效原语

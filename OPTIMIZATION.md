@@ -125,7 +125,33 @@ Route (app)                  Size      First Load JS
 | 压缩 | `compress: true`；Vercel 边缘自动 Brotli |
 | 缓存 | 静态路由 `Cache-Control: public, max-age=...` 由 Vercel 自动处理 |
 
-### 4.3 后续可选
+### 4.3 鼠标交互液态背景（WebGL）
+
+`components/liquid-bg.tsx` 复刻 prime.whut.club 首屏（其实现为 reactbits LiquidEther：Three.js + 完整 Navier-Stokes 流体模拟，动态分包 494 KB）。本站改用**原生 WebGL 双通道方案，零依赖、约 10 KB 源码**：
+
+```
+拖尾通道（512² ping-pong FBO，RGBA8 无需浮点扩展）
+  R = 强度（帧率无关衰减 + 鼠标速度溅射），GB = 平滑速度方向
+显示通道（单次全屏绘制，大三角形覆盖）
+  域扭曲 FBM 液态噪声（5 octave，随时间流动）
+  + 拖尾梯度对 UV 的扭曲（光标搅动）
+  + 光标光晕 / 白热核心 / 扩散涟漪 + 暗角
+```
+
+性能策略（每一项都可量化）：
+
+| 策略 | 实现 |
+| --- | --- |
+| 分辨率封顶 | DPR ≤ 1.25；帧耗时 EMA 连续超标（>23ms × 90 帧）自动降渲染尺度，最低 0.55 |
+| 离屏暂停 | IntersectionObserver 监测首屏，离开即停 rAF 并将 canvas 淡出（opacity 0） |
+| 后台暂停 | `visibilitychange` → `document.hidden` 时跳过渲染 |
+| 输入平滑 | pointermove 只存目标值，每帧一次 lerp；无输入 2.6s 进入缓慢自动漂移（移动端也有效果） |
+| 无障碍 | `prefers-reduced-motion` 只渲染一帧静态画面；无 WebGL 时回退 CSS 径向渐变（`.hero-glow`） |
+| 资源安全 | `webglcontextlost` 阻止默认行为；卸载时逐个 delete program/texture/framebuffer/buffer |
+
+对比参考站：同款观感（流动扭曲 + 光标光晕涟漪），但运行时成本约为其 1/10（无 Three.js、无 5 趟全屏模拟 pass、无 494 KB 分包）。
+
+### 4.4 后续可选
 
 - **Vercel Web Analytics**：`npm i @vercel/analytics` 后在 layout 引入，不影响性能分；
 - **Turbopack 构建**：Next 15.5 可试 `npm run build:turbo`（本机 webpack 构建仅 2.6s，暂无必要）；

@@ -4,6 +4,7 @@ import SmoothScroll from "@/components/smooth-scroll";
 import Cursor from "@/components/cursor";
 import Grain from "@/components/grain";
 import Loader from "@/components/loader";
+import LiquidBg from "@/components/liquid-bg";
 import "./globals.css";
 
 /*
@@ -102,6 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           跳到主内容
         </a>
         <Loader />
+        <LiquidBg />
         <SmoothScroll>
           <Cursor />
           <Grain />
