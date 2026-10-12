@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDGE32 — STM32 × 边缘人工智能学习站</title>
+<meta name="description" content="一条从 STM32 到边缘 AI（TinyML）的免费学习路径：以 B站与 YouTube 免费课程为主线，含学习路线、课程列表、网盘资源与本地学习笔记。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:ital,wght@1,700;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 55"><rect width="37" height="4" transform="translate(6.5 0)" fill="%23f5f4f0"/><rect width="37" height="4" transform="translate(6.5 51)" fill="%23f5f4f0"/><path d="M5,7h27v3v10h-3v-10h-21v10h-3v-10-3Z" fill="%23f5f4f0"/><path d="M5,35h3v10h21v-10h3v10v3h-27v-3-10Z" fill="%23f5f4f0"/><rect width="3" height="3" transform="translate(8 20)" fill="%23ee344a"/></svg>'>
+</head>
+<body>
+
+<!-- 噪点纹理 -->
+<div class="grain" aria-hidden="true"></div>
+
+<!-- 自定义光标 -->
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"></div>
+
+<!-- 加载器 -->
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="loader-chip" viewBox="0 0 50 55" xmlns="http://www.w3.org/2000/svg">
+    <rect width="37" height="4" transform="translate(6.5 0)"></rect>
+    <rect width="37" height="4" transform="translate(6.5 51)"></rect>
+    <path d="M5,7h27v3v10h-3v-10h-21v10h-3v-10-3Z" clip-rule="evenodd" fill-rule="evenodd"></path>
+    <path d="M5,35h3v10h21v-10h3v10v3h-27v-3-10Z" clip-rule="evenodd" fill-rule="evenodd"></path>
+    <rect width="3" height="3" transform="translate(8 20)"></rect>
+    <rect width="3" height="3" transform="translate(11 23)"></rect>
+    <rect width="3" height="3" transform="translate(14 26)"></rect>
+    <rect width="3" height="3" transform="translate(11 29)"></rect>
+    <rect width="3" height="3" transform="translate(8 32)"></rect>
+    <rect class="blink" width="3" height="3" transform="translate(29 20) scale(-1,1)"></rect>
+  </svg>
+  <div class="loader-num"><span id="loaderNum">0</span>%</div>
+  <div class="loader-bar"><i id="loaderBar"></i></div>
+</div>
+
+<!-- 导航 -->
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="#top" data-hover>
+    <svg viewBox="0 0 50 55" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="37" height="4" transform="translate(6.5 0)"></rect>
+      <rect width="37" height="4" transform="translate(6.5 51)"></rect>
+      <path d="M5,7h27v3v10h-3v-10h-21v10h-3v-10-3Z" clip-rule="evenodd" fill-rule="evenodd"></path>
+      <path d="M5,35h3v10h21v-10h3v10v3h-27v-3-10Z" clip-rule="evenodd" fill-rule="evenodd"></path>
+      <rect width="3" height="3" transform="translate(8 20)"></rect>
+      <rect width="3" height="3" transform="translate(11 23)"></rect>
+      <rect width="3" height="3" transform="translate(14 26)"></rect>
+      <rect width="3" height="3" transform="translate(11 29)"></rect>
+      <rect width="3" height="3" transform="translate(8 32)"></rect>
+      <rect class="blink" width="3" height="3" transform="translate(29 20) scale(-1,1)"></rect>
+    </svg>
+    EDGE<em>32</em>
+  </a>
+  <div class="nav-links">
+    <a href="#problem" data-hover>痛点</a>
+    <a href="#roadmap" data-hover>学习路线</a>
+    <a href="#courses" data-hover>课程</a>
+    <a href="#resources" data-hover>资源</a>
+    <a href="#notes" data-hover>学习笔记</a>
+  </div>
+  <div class="nav-progress" id="navProgress"></div>
+</nav>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero wrap" id="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="eyebrow rv">EMBEDDED × EDGE AI // 学习路径 · 2026</p>
+      <h1 class="h-display">
+        <span class="line-mask" style="--d:80ms"><span>从 STM32 出发，</span></span>
+        <span class="line-mask l2" style="--d:200ms"><span>让单片机 <em>学会思考</em></span></span>
+      </h1>
+      <p class="lead rv" style="--d:340ms">
+        一条为嵌入式初学者铺平的道路：以 <em>B站与 YouTube 免费课程</em>为主线，从 C语言、寄存器、RTOS
+        一路走到 <em>TinyML 与边缘 AI</em>。附完整资源库与本地学习笔记，一切进度只保存在你的浏览器里。
+      </p>
+      <div class="hero-cta rv" style="--d:440ms">
+        <a class="btn btn--solid" href="#roadmap" data-hover>
+          查看学习路线
+          <svg viewBox="0 0 24 24"><path d="M12 21V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+        </a>
+        <a class="btn" href="#resources" data-hover>
+          资源获取
+          <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        </a>
+      </div>
+      <div class="hero-stats rv" style="--d:540ms">
+        <div class="stat"><b>0<i>6</i></b><span>学习阶段</span></div>
+        <div class="stat"><b>2<i>0</i>+</b><span>免费课程</span></div>
+        <div class="stat"><b>10<i>0</i>%</b><span>免费资源</span></div>
+        <div class="stat"><b>0<i>¥</i></b><span>课程花费</span></div>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">SCROLL</div>
+  </section>
+
+  <!-- 跑马灯 -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="marqueeTrack"></div>
+    <div class="marquee-track" id="marqueeTrack2"></div>
+  </div>
+
+  <!-- ============ 痛点 ============ -->
+  <section class="sec wrap" id="problem">
+    <div class="sec-head">
+      <p class="eyebrow rv">(01) THE PROBLEM</p>
+      <h2 class="h-section">
+        <span class="line-mask"><span>大多数人，</span></span>
+        <span class="line-mask" style="--d:120ms"><span>卡在同一个<em>地方</em></span></span>
+      </h2>
+      <p class="lead rv" style="--d:240ms">不是缺乏资料——B站收藏夹里躺了几十门课。真正稀缺的，是<em>一条路径</em>，和一个记录成长的地方。</p>
+    </div>
+    <div class="pain-grid">
+      <article class="pain-card rv" data-i="01" style="--d:0ms">
+        <div class="pain-ico"><svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 9h16M9 4v16"/></svg></div>
+        <h3>资料太多，无从下手</h3>
+        <p>教程、手册、论坛帖收藏了一堆，却不知道该先看哪一门、按什么顺序看。</p>
+      </article>
+      <article class="pain-card rv" data-i="02" style="--d:80ms">
+        <div class="pain-ico"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+        <h3>寄存器 vs HAL 库</h3>
+        <p>直接学 HAL 不懂原理，直接啃寄存器又太劝退，两种风格反复横跳。</p>
+      </article>
+      <article class="pain-card rv" data-i="03" style="--d:160ms">
+        <div class="pain-ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 9v6M12 9v6M17 9v6" stroke="currentColor" stroke-width="2"/></svg></div>
+        <h3>外设学完就忘</h3>
+        <p>GPIO、定时器、DMA 单独都懂，合起来做项目就懵，缺少把知识串起来的项目。</p>
+      </article>
+      <article class="pain-card rv" data-i="04" style="--d:240ms">
+        <div class="pain-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="currentColor"/><path d="M12 2a10 10 0 0 1 10 10M2 12A10 10 0 0 1 12 2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 3"/></svg></div>
+        <h3>AI 门槛高</h3>
+        <p>想结合边缘 AI，却不知道模型怎么训练、怎么量化、怎么塞进单片机。</p>
+      </article>
+      <article class="pain-card rv" data-i="05" style="--d:320ms">
+        <div class="pain-ico"><svg viewBox="0 0 24 24"><path d="M5 3h14v18l-7-4-7 4V3z" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+        <h3>笔记散落各处</h3>
+        <p>学了就忘，看过就扔，缺少沉淀与复盘，半年后不得不重头再来。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 学习路线 ============ -->
+  <section class="sec wrap" id="roadmap">
+    <div class="sec-head">
+      <p class="eyebrow rv">(02) THE ROADMAP</p>
+      <h2 class="h-section">
+        <span class="line-mask"><span>六个阶段，</span></span>
+        <span class="line-mask" style="--d:120ms"><span>从点灯到 <em>边缘推理</em></span></span>
+      </h2>
+      <p class="lead rv" style="--d:240ms">
+        每阶段包含学习目标、核心重点与推荐课程。点击要点左侧的方框即可<em>勾选进度</em>——数据只保存在你的浏览器本地。
+      </p>
+    </div>
+
+    <div class="road-progress rv">
+      <span class="mono-label">ROADMAP PROGRESS</span>
+      <div class="road-bar"><i id="roadBar"></i></div>
+      <span class="road-pct" id="roadPct">0%</span>
+      <button class="road-reset" id="roadReset" data-hover>重置进度</button>
+    </div>
+
+    <div id="stageList"></div>
+  </section>
+
+  <!-- ============ 课程 ============ -->
+  <section class="sec wrap" id="courses">
+    <div class="sec-head">
+      <p class="eyebrow rv">(03) COURSES</p>
+      <h2 class="h-section">
+        <span class="line-mask"><span>免费课程，</span></span>
+        <span class="line-mask" style="--d:120ms"><span>全部 <em>免费公开</em></span></span>
+      </h2>
+      <p class="lead rv" style="--d:240ms">以 <em>B站</em>中文课程为主线，<em>YouTube</em> 与官方 MOOC 为进阶补充。按平台筛选，找到适合你当前阶段的那一门。</p>
+    </div>
+    <div class="tabs rv" id="courseTabs" style="--d:300ms"></div>
+    <div class="course-grid" id="courseGrid"></div>
+  </section>
+
+  <!-- ============ 资源 ============ -->
+  <section class="sec wrap" id="resources">
+    <div class="sec-head">
+      <p class="eyebrow rv">(04) RESOURCES</p>
+      <h2 class="h-section">
+        <span class="line-mask"><span>资源获取，</span></span>
+        <span class="line-mask" style="--d:120ms"><span>网盘与 <em>工具链</em></span></span>
+      </h2>
+      <p class="lead rv" style="--d:240ms">教程源码、数据手册、开发软件与 AI 工具链。百度网盘链接失效时，请以各<em>官方站点</em>为准。</p>
+    </div>
+
+    <div class="pan-grid" id="panGrid"></div>
+
+    <div class="res-cols">
+      <div class="res-col rv">
+        <h3>开发<span>工具链</span></h3>
+        <p class="res-sub">从写第一行代码到跑通推理，你需要的全部软件。</p>
+        <ul class="res-list" id="toolList"></ul>
+      </div>
+      <div class="res-col rv" style="--d:120ms">
+        <h3>文档与<span>社区</span></h3>
+        <p class="res-sub">遇到问题先查手册，再上论坛——这是嵌入式工程师的基本功。</p>
+        <ul class="res-list" id="communityList"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 学习笔记 ============ -->
+  <section class="sec wrap" id="notes">
+    <div class="sec-head">
+      <p class="eyebrow rv">(05) NOTES</p>
+      <h2 class="h-section">
+        <span class="line-mask"><span>学习笔记，</span></span>
+        <span class="line-mask" style="--d:120ms"><span>记录每一次 <em>恍然大悟</em></span></span>
+      </h2>
+      <p class="lead rv" style="--d:240ms">
+        笔记仅保存在你的浏览器本地（localStorage），<em>不上传任何服务器</em>。建议定期导出备份，换电脑时用 JSON 导入即可迁移。
+      </p>
+    </div>
+
+    <div class="notes-toolbar rv">
+      <div class="notes-filters" id="noteFilters"></div>
+      <div class="notes-actions">
+        <span class="notes-count" id="notesCount">0 篇笔记</span>
+        <button class="n-btn" id="noteExportMd" data-hover>导出 .md</button>
+        <button class="n-btn" id="noteExportJson" data-hover>导出 .json</button>
+        <button class="n-btn" id="noteImportBtn" data-hover>导入 .json</button>
+        <button class="n-btn n-btn--primary" id="noteNew" data-hover>+ 新建笔记</button>
+        <input type="file" id="noteImportFile" accept=".json,application/json" hidden>
+      </div>
+    </div>
+
+    <div class="notes-grid" id="notesGrid"></div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="sec wrap cta">
+    <p class="eyebrow rv" style="justify-content:center">(06) GET STARTED</p>
+    <h2 class="h-section" style="margin-top:26px">
+      <span class="line-mask"><span>准备好点亮</span></span>
+      <span class="line-mask" style="--d:120ms"><span>第一颗 <em>LED</em> 了吗？</span></span>
+    </h2>
+    <p class="lead rv" style="--d:240ms">安装 CubeIDE，找一块 F103 开发板，从今天开始。每一步都算数。</p>
+    <div class="rv" style="--d:340ms">
+      <a class="btn btn--solid" href="#roadmap" data-hover>开始学习</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer wrap">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="nav-logo" href="#top" data-hover>
+        <svg viewBox="0 0 50 55" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="37" height="4" transform="translate(6.5 0)"></rect>
+          <rect width="37" height="4" transform="translate(6.5 51)"></rect>
+          <path d="M5,7h27v3v10h-3v-10h-21v10h-3v-10-3Z" clip-rule="evenodd" fill-rule="evenodd"></path>
+          <path d="M5,35h3v10h21v-10h3v10v3h-27v-3-10Z" clip-rule="evenodd" fill-rule="evenodd"></path>
+          <rect width="3" height="3" transform="translate(8 20)"></rect>
+          <rect class="blink" width="3" height="3" transform="translate(29 20) scale(-1,1)"></rect>
+        </svg>
+        EDGE<em>32</em>
+      </a>
+      <p>STM32 × 边缘人工智能个人学习站。内容整理自 B站、YouTube 与各官方站点的公开免费资源，版权归原作者所有；课程与网盘链接如有失效，请以官方渠道为准。</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h5>站点导航</h5>
+        <a href="#problem" data-hover>学习痛点</a>
+        <a href="#roadmap" data-hover>学习路线</a>
+        <a href="#courses" data-hover>课程列表</a>
+        <a href="#resources" data-hover>资源获取</a>
+        <a href="#notes" data-hover>学习笔记</a>
+      </div>
+      <div class="footer-col">
+        <h5>常用入口</h5>
+        <a href="https://www.st.com/zh/microcontrollers-microprocessors.html" target="_blank" rel="noopener" data-hover>ST 官网</a>
+        <a href="http://www.openedv.com/" target="_blank" rel="noopener" data-hover>正点原子论坛</a>
+        <a href="https://www.firebbs.cn/forum-stm32-1.html" target="_blank" rel="noopener" data-hover>野火论坛</a>
+        <a href="https://www.stmcu.org.cn/" target="_blank" rel="noopener" data-hover>STM32 中文社区</a>
+        <a href="https://docs.edgeimpulse.com/" target="_blank" rel="noopener" data-hover>Edge Impulse 文档</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <span>EDGE32 · 个人学习项目 · 本地构建</span>
+    <span>DESIGNED AFTER <b>GRILLEDPIXELS.COM</b> STYLE</span>
+    <span>NOTES STORED IN LOCALSTORAGE</span>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="回到顶部" data-hover>↑</button>
+
+<!-- 笔记编辑器 -->
+<div class="modal-mask" id="noteModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="mono-label" id="modalTitle">NEW NOTE // 新建笔记</span>
+      <button class="modal-close" id="modalClose" data-hover>✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label for="noteTitle">标题</label>
+        <input type="text" id="noteTitle" placeholder="例如：DMA 半传输中断踩坑记录" maxlength="80">
+      </div>
+      <div class="field">
+        <label for="noteStage">所属阶段</label>
+        <select id="noteStage"></select>
+      </div>
+      <div class="field">
+        <label for="noteContent">内容（支持 Markdown 基础语法）</label>
+        <textarea id="noteContent" placeholder="# 今天学到了什么？&#10;&#10;## 问题&#10;描述你遇到的问题……&#10;&#10;## 解决&#10;- 第一步&#10;- 第二步"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="n-btn" id="modalCancel" data-hover>取消</button>
+      <button class="n-btn n-btn--primary" id="modalSave" data-hover>保存笔记</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

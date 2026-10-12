@@ -1,0 +1,35 @@
+# dependencies
+node_modules
+.pnp
+.pnp.js
+
+# next.js
+.next
+out
+build
+
+# production
+dist
+
+# misc
+*.tsbuildinfo
+next-env.d.ts.bak
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env
+.env*
+!.env.example
+
+# vercel
+.vercel
+
+# workbuddy 项目数据（记忆/任务，不属于仓库内容）
+.workbuddy
+
+# os
+.DS_Store
+Thumbs.db

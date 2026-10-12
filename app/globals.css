@@ -1,0 +1,237 @@
+/* ============================================================
+   EDGE32 — globals.css
+   Tailwind CSS v4 · 设计令牌源自 grilledpixels.com 参考站
+   ============================================================ */
+
+@import "tailwindcss";
+
+@theme {
+  /* —— 色彩（#EE344A 为参考站精确强调色）—— */
+  --color-bg: #0a0a0a;
+  --color-bg2: #121212;
+  --color-bg3: #171717;
+  --color-ink: #f5f4f0;
+  --color-muted: #9b9a94;
+  --color-faint: #5c5b57;
+  --color-line: #ffffff24;
+  --color-linesoft: #ffffff14;
+  --color-red: #ee344a;
+  --color-redsoft: #ee344a24;
+
+  /* —— 字体（next/font 变量于 layout 注入 <html>）—— */
+  --font-sans: var(--font-noto-sans), "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --font-serif: var(--font-noto-serif), "Songti SC", "SimSun", serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Consolas, "Courier New", monospace;
+
+  /* —— 间距节奏 —— */
+  --spacing-gutter: clamp(20px, 4vw, 64px);
+
+  /* —— 动画 —— */
+  --animate-marquee: marquee 28s linear infinite;
+  --animate-blink: blink 1.6s steps(2) infinite;
+  --animate-drip: drip 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  --animate-fadeup: fadeup 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-100%); }
+}
+@keyframes blink {
+  50% { opacity: 0.12; }
+}
+@keyframes drip {
+  0% { transform: scaleY(0); transform-origin: top; }
+  45% { transform: scaleY(1); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+@keyframes fadeup {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@layer base {
+  * { border-color: var(--color-linesoft); }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Lenis 平滑滚动官方要求的基础规则 */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-red);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-red);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* —— 区块节奏 —— */
+  .sec { padding-block: clamp(80px, 12vw, 160px); }
+  .sec-head { margin-bottom: clamp(44px, 6vw, 84px); }
+
+  /* —— 排印 —— */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-mono);
+    font-size: clamp(11px, 1.1vw, 13px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-red);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 42px;
+    height: 1px;
+    background: var(--color-red);
+  }
+
+  .h-display {
+    font-weight: 900;
+    line-height: 0.98;
+    letter-spacing: -0.01em;
+    font-size: clamp(44px, 8.2vw, 118px);
+    text-wrap: balance;
+  }
+
+  .h-section {
+    font-weight: 900;
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    font-size: clamp(34px, 5.6vw, 76px);
+    text-wrap: balance;
+  }
+
+  .h-sub {
+    font-weight: 900;
+    font-size: clamp(22px, 2.6vw, 34px);
+    line-height: 1.18;
+  }
+
+  /* 红色斜体衬线强调词（参考站的标志性处理） */
+  .accent {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 700;
+    color: var(--color-red);
+  }
+
+  .lead {
+    color: var(--color-muted);
+    font-size: clamp(15px, 1.35vw, 18px);
+    max-width: 62ch;
+    text-wrap: pretty;
+  }
+  .lead em {
+    color: var(--color-ink);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+
+  /* —— 阶段描边数字（hover 变红）—— */
+  .stage-num {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--color-faint);
+    transition: color 0.35s, -webkit-text-stroke-color 0.35s;
+  }
+  .group:hover .stage-num {
+    color: var(--color-red);
+    -webkit-text-stroke-color: var(--color-red);
+  }
+
+  /* —— 噪点纹理 —— */
+  .grain {
+    position: fixed;
+    inset: -100px;
+    pointer-events: none;
+    z-index: 2000;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* —— 跳转链接（可访问性）—— */
+  .skip-link {
+    position: fixed;
+    top: -100px;
+    left: 16px;
+    z-index: 5000;
+    background: var(--color-red);
+    color: #fff;
+    padding: 10px 18px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    transition: top 0.25s;
+  }
+  .skip-link:focus {
+    top: 16px;
+  }
+
+  /* —— 自定义光标激活时隐藏系统光标 —— */
+  body.cc-cursor,
+  body.cc-cursor a,
+  body.cc-cursor button,
+  body.cc-cursor [data-cursor-label] {
+    cursor: none;
+  }
+  body.cc-cursor input,
+  body.cc-cursor textarea {
+    cursor: text;
+  }
+  body.cc-cursor select {
+    cursor: pointer;
+  }
+  @media (hover: none), (pointer: coarse) {
+    body.cc-cursor,
+    body.cc-cursor a,
+    body.cc-cursor button {
+      cursor: auto;
+    }
+    body.cc-cursor a,
+    body.cc-cursor button {
+      cursor: pointer;
+    }
+  }
+}
